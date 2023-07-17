@@ -23,17 +23,26 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.S) || (Input.GetKeyUp(KeyCode.DownArrow)))
         {
             animator.SetBool("Slide", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.W) || (Input.GetKeyUp(KeyCode.UpArrow)))
+        {
+            animator.SetBool("Jump", true);
         }   
     }
 
     //Animation Event
     void ToggleOff(string Name)
     {
-        animator.SetBool("Slide", false);
+        animator.SetBool(Name, false);
     }
 
     private void OnAnimatorMove() 
     {
+        if (animator.GetBool("Jump"))
+        {
+            rb.MovePosition(rb.position + new Vector3(0,0.7f,1) * animator.deltaPosition.magnitude);
+        }
+        else
         rb.MovePosition(rb.position + Vector3.forward * animator.deltaPosition.magnitude);    
     }
 }
